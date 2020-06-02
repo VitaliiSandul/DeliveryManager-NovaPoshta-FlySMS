@@ -1,0 +1,157 @@
+﻿<Window x:Class="NovaPoshtaWpf.Views.SettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NovaPoshtaWpf.Views"
+        xmlns:wm ="clr-namespace:NovaPoshtaWpf.ViewModels"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:interactivity1="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactivity2="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactivity3="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactivity4="http://schemas.microsoft.com/expression/2010/interactivity"
+        
+        mc:Ignorable="d"
+        Title="Settings" Height="540" Width="400">
+        
+        <Window.DataContext>
+            <wm:SettingsViewModel></wm:SettingsViewModel>
+        </Window.DataContext>
+    <Grid>
+        <StackPanel Margin="20">
+            <Label Foreground="Blue" FontWeight="Bold">Nova Poshta ApiKey:</Label>
+            <TextBox Text="{Binding Config.ApiKeyNP}"></TextBox>
+  
+            <Label Foreground="Blue" FontWeight="Bold">Sender Counterparties:</Label>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox ItemsSource ="{Binding Counterparties}"                                  
+                          DisplayMemberPath="Description"
+                          SelectedItem="{Binding SelectedCounterparty}"                      
+                          Margin="0 5"
+                          x:Name="changeCounterparty"
+                          ToolTip="Change counterparty"
+                          Width="190">
+
+                    <interactivity1:Interaction.Triggers>
+                        <interactivity1:EventTrigger EventName="SelectionChanged">
+                            <interactivity1:InvokeCommandAction Command="{Binding ChangeCounterpartyCommand}"
+														        CommandParameter="{Binding ElementName=changeCounterparty, Path=SelectedItem.Content}"/>
+                        </interactivity1:EventTrigger>
+                    </interactivity1:Interaction.Triggers>
+
+                </ComboBox>
+                <Button Margin="5" 
+                        Width="155"
+                        Content="Get Counterparties"
+                        Command="{Binding GetCounterpartiesCommand}">
+                </Button>
+            </StackPanel>
+
+            <Label Foreground="Blue" FontWeight="Bold">Sender ContactPerson:</Label>
+            <StackPanel Orientation="Horizontal">
+                <ComboBox ItemsSource ="{Binding ContactPersons}"                                  
+                          DisplayMemberPath="Description"
+                          SelectedItem="{Binding SelectedContactPerson}"                      
+                          Margin="0 5"
+                          x:Name="changeContactPerson"
+                          ToolTip="Change ContactPerson"
+                          Width="190">
+
+                    <interactivity2:Interaction.Triggers>
+                        <interactivity2:EventTrigger EventName="SelectionChanged">
+                            <interactivity2:InvokeCommandAction Command="{Binding ChangeContactPersonCommand}"
+														        CommandParameter="{Binding ElementName=changeContactPerson, Path=SelectedItem.Content}"/>
+                        </interactivity2:EventTrigger>
+                    </interactivity2:Interaction.Triggers>
+
+                </ComboBox>
+                <Button Margin="5" 
+                        Width="155"
+                        Content="Get ContactPerson"
+                        Command="{Binding GetContactPersonsCommand}">
+                </Button>
+            </StackPanel>
+
+            <Label Foreground="Blue" FontWeight="Bold">Sender City:</Label>
+            <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource ="{Binding Cities}"                                  
+                      DisplayMemberPath="Description"
+                      SelectedItem="{Binding SelectedCity}"                      
+                      Margin="0 5"
+                      x:Name="changeCity"
+                      ToolTip="Change city"
+                      Width="190">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+
+                <interactivity3:Interaction.Triggers>
+                    <interactivity3:EventTrigger EventName="SelectionChanged">
+                        <interactivity3:InvokeCommandAction Command="{Binding ChangeCityCommand}"
+														    CommandParameter="{Binding ElementName=changeCity, Path=SelectedItem.Content}"/>
+                    </interactivity3:EventTrigger>
+                </interactivity3:Interaction.Triggers>
+
+            </ComboBox>
+            <Button Margin="5"
+                    Width="155"
+                    Content="Get Cities"
+                    Command="{Binding GetCitiesCommand}">
+            </Button>
+            </StackPanel>
+
+            <Label Foreground="Blue" FontWeight="Bold">Sender Warehouse:</Label>
+            <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource ="{Binding Warehouses}"                                  
+                      DisplayMemberPath="Description"
+                      SelectedItem="{Binding SelectedWarehouse}"                      
+                      Margin="0 5"
+                      Width="190"
+                      x:Name="changeWarehouse"
+                      ToolTip="Change warehouse">
+
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+
+                <interactivity4:Interaction.Triggers>
+                    <interactivity4:EventTrigger EventName="SelectionChanged">
+                        <interactivity4:InvokeCommandAction Command="{Binding ChangeWarehouseCommand}"
+														    CommandParameter="{Binding ElementName=changeWarehouse, Path=SelectedItem.Content}"/>
+                    </interactivity4:EventTrigger>
+                </interactivity4:Interaction.Triggers>
+
+            </ComboBox>
+                <Button Margin="5"
+                        Width="155"
+                        Content="Get Warehouses"
+                        Command="{Binding GetWarehousesCommand}">
+                </Button>
+            </StackPanel>
+            <Label Foreground="Blue" FontWeight="Bold">SMS-Fly Login:</Label>
+            <TextBox Text="{Binding Config.LoginFly}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">SMS-Fly Password:</Label>
+            <TextBox Text="{Binding Config.PasswordFly}"></TextBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Margin="5 10" 
+                        Width="100" 
+                        IsCancel="True"
+                        Content="Cancel"
+                        Command="{Binding CancelCommand}">                    
+                </Button>
+                <Button Margin="5 10" 
+                        Width="100" 
+                        IsCancel="True"
+                        Content="Save"
+                        Command="{Binding SaveSettingsCommand}">                    
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

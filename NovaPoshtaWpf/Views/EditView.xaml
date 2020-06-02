@@ -1,0 +1,92 @@
+﻿<Window x:Class="NovaPoshtaWpf.Views.EditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NovaPoshtaWpf.Views"
+        xmlns:wm ="clr-namespace:NovaPoshtaWpf.ViewModels"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:interactivity1="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactivity2="http://schemas.microsoft.com/expression/2010/interactivity"
+        mc:Ignorable="d"
+        Title="Delivery info" Height="670" Width="400">
+    <Window.DataContext>
+        <wm:EditViewModel></wm:EditViewModel>
+    </Window.DataContext>
+    
+        <Grid>
+        <StackPanel Margin="20">
+            <Label Foreground="Blue" FontWeight="Bold">Delivery description:</Label>
+            <TextBox Text="{Binding SelectedDelivery.DeliveryDescription}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Operation date:</Label>
+            <TextBox Text="{Binding Path=SelectedDelivery.DateOper, StringFormat=dd-MM-yyyy}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Price:</Label>
+            <TextBox Text="{Binding SelectedDelivery.Price}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Customer phone:</Label>
+            <TextBox Text="{Binding SelectedDelivery.CustomerPhone}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Customer name:</Label>
+            <TextBox Text="{Binding SelectedDelivery.CustomerName}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">City:</Label>
+            <ComboBox ItemsSource ="{Binding Cities}"                                  
+                      DisplayMemberPath="Description"
+                      SelectedItem="{Binding SelectedCity}"                      
+                      Margin="0 5"
+                      x:Name="changeCity"
+                      ToolTip="Change city">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+
+                <interactivity1:Interaction.Triggers>
+                    <interactivity1:EventTrigger EventName="SelectionChanged">
+                        <interactivity1:InvokeCommandAction Command="{Binding ChangeCityCommand}"
+														    CommandParameter="{Binding ElementName=changeCity, Path=SelectedItem.Content}"/>
+                    </interactivity1:EventTrigger>
+                </interactivity1:Interaction.Triggers>
+                            
+            </ComboBox> 
+            
+            <Label Foreground="Blue" FontWeight="Bold">Storage number:</Label>
+            <ComboBox ItemsSource ="{Binding Warehouses}"                                  
+                      DisplayMemberPath="Description"
+                      SelectedItem="{Binding SelectedWarehouse}"                      
+                      Margin="0 5"
+                      x:Name="changeWarehouse"
+                      ToolTip="Change warehouse">
+
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+
+                <interactivity2:Interaction.Triggers>
+                    <interactivity2:EventTrigger EventName="SelectionChanged">
+                        <interactivity2:InvokeCommandAction Command="{Binding ChangeWarehouseCommand}"
+														    CommandParameter="{Binding ElementName=changeWarehouse, Path=SelectedItem.Content}"/>
+                    </interactivity2:EventTrigger>
+                </interactivity2:Interaction.Triggers>
+
+            </ComboBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Volumetric or actual weight (max value):</Label>
+            <TextBox Text="{Binding SelectedDelivery.WeightMax}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">TTN (the field must be empty to create TTN):</Label>
+            <TextBox Text="{Binding SelectedDelivery.Ttn}"></TextBox>
+
+            <Label Foreground="Blue" FontWeight="Bold">Arrival date (the field must be empty to create TTN):</Label>
+            <TextBox Text="{Binding Path=SelectedDelivery.DateArrival, StringFormat=dd-MM-yyyy}"></TextBox>
+
+            <Button Margin="5 10" IsCancel="True">Accept</Button>
+            
+        </StackPanel>
+    </Grid>
+</Window>
